@@ -1,6 +1,8 @@
 import sqlite3
 
 def db_delete(field:str, cond:str):
+    """Функция удаляет из БД записи, где одно из заданных полей
+    соответствует заданному условию"""
     with sqlite3.connect("D:/STUDY/NIR/vuz3.sqlite") as con:
          try:
             cur = con.cursor()
@@ -14,14 +16,17 @@ def db_delete(field:str, cond:str):
                     print(f"Удалено строк: {cur.rowcount}")
                 elif confirm == "n":
                     con.rollback()
+                    return
                 else:
                     print("Не понимаю. Повторите. [y/n]: ")
 
          except Exception as err:
-             raise
+             print(f"Произошла ошибка: {err}")
 
 
 def db_update_field(field:str, cond:str, new):
+    """Функция изменяет в таблице ячейку, в определенном поле, которое соответствует
+    заданному условию"""
     with sqlite3.connect("D:/STUDY/NIR/vuz3.sqlite") as con:
         try:
             cur = con.cursor()
@@ -32,16 +37,18 @@ def db_update_field(field:str, cond:str, new):
                 confirm = input("Подтвердить изменения? [y/n]: ")
                 if confirm == "y":
                     con.commit()
+                    print(f"Значения поля {field}, соответствующие условию {cond}, изменены на {new}")
                 elif confirm == "n":
                     con.rollback()
+                    return
                 else:
                     print("Не понимаю. Повторите. [y/n]: ")
 
-                print(f"Значения поля {field}, соответствующие условию {cond}, изменены на {new}")
         except Exception as err:
-            raise
+            print(f"Произошла ошибка: {err}")
 
 def db_add(values):
+    """Функция добавляет запись в таблицу"""
     with sqlite3.connect("D:/STUDY/NIR/vuz3.sqlite") as con:
         try:
             cur = con.cursor()
@@ -54,14 +61,15 @@ def db_add(values):
             confirm = input("Подтвердить изменения? [y/n]: ")
             if confirm == "y":
                 con.commit()
+                print("В таблицу добавлена строка")
+                return
             elif confirm == "n":
                 con.rollback()
+                return
             else:
                 print("Не понимаю. Повторите. [y/n]: ")
-
-            print("В базу данных добавлена новая запись")
         except Exception as err:
-            raise
+            print(f"Произошла ошибка: {err}")
 
 
 

@@ -63,5 +63,5 @@ def db_filter(field:str, cond:str):
             else:
                 print("Строки не найдены")
         except Exception as err:
-            raise
+            print(f"Произошла ошибка: {err}")
 
