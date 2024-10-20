@@ -1,0 +1,5 @@
+/.idea
+/__pycache__
+/DOCS
+/test.sqlite
+/test1.sqlite
