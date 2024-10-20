@@ -49,19 +49,41 @@ def table_show():
             print(" | ".join([f"{str(value):<{widths[i]}}"
                               for i, value in enumerate(now)]))
 
-def db_filter(field:str, cond:str):
+
+def db_filter(field: str, cond: str):
     """Функция возвращает поля, соответствующие условию.
     Если условие введено некорректно и не выполнилось, возвращается ошибка"""
     with sqlite3.connect("D:/STUDY/NIR/vuz3.sqlite") as con:
         cur = con.cursor()
         try:
+            cur.execute("PRAGMA table_info(attestation)")
+            fields = cur.fetchall()
+            if not fields:
+                print("Таблица 'attestation' не существует.")
+                return
+
+            names = [now[1] for now in fields]
+
             cur.execute(f"SELECT * FROM attestation WHERE {field} {cond}")
             rows = cur.fetchall()
-            if rows:
-                print("Строки, удовлетворяющие условию:")
-                [print(now) for now in rows]
-            else:
+
+            if not rows:
                 print("Строки не найдены")
+                return
+
+            # Рассчитываем ширину колонок
+            widths = [max(len(name), max(len(str(row[i])) for row in rows)) for i, name in enumerate(names)]
+
+            # Формируем заголовок таблицы
+            header = " | ".join([f"{name:<{widths[i]}}" for i, name in enumerate(names)])
+            separator = "-+-".join(['-' * width for width in widths])
+
+            print(header)
+            print(separator)
+
+            # Выводим строки таблицы
+            for row in rows:
+                print(" | ".join([f"{str(value):<{widths[i]}}" for i, value in enumerate(row)]))
         except Exception as err:
             print(f"Произошла ошибка: {err}")
 

@@ -24,7 +24,7 @@ def file_input(file, lines_to_read):
     with open(file, 'r', encoding='utf-8') as f:
         try:
             if lines_to_read == sum(1 for _ in f):
-                f.seek(0)
+                f.seek(0) #Возврат указателя обратно в начало
                 lines = f.readlines()
             else:
                 # Преобразуем количество строк в число и читаем соответствующее количество строк

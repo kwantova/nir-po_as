@@ -58,6 +58,7 @@ while True:
                 field = input("Введите имя поля, к которому применяется условие: ")
                 cond = input("Введите условие фильтрации: ")
                 new = input("Введите новое значение: ")
+                e.db_update_field(field, cond, new)
                 break
             except Exception as err:
                 print(f"Возникла ошибка: {err}. Повторите ввод:")

@@ -18,7 +18,7 @@ def db_delete(field:str, cond:str):
                     con.rollback()
                     return
                 else:
-                    print("Не понимаю. Повторите. [y/n]: ")
+                    print("Не понимаю. Повторите. ")
 
          except Exception as err:
              print(f"Произошла ошибка: {err}")
@@ -30,7 +30,7 @@ def db_update_field(field:str, cond:str, new):
     with sqlite3.connect("D:/STUDY/NIR/vuz3.sqlite") as con:
         try:
             cur = con.cursor()
-            cur.execute((f"UPDATE attestation SET {field} = ? WHERE {cond}"), (new,))
+            cur.execute((f"UPDATE attestation SET {field} = ? WHERE {field} {cond}"), (new,))
             if cur.rowcount == 0:
                 print("Строки не найдены")
             else:
@@ -42,7 +42,7 @@ def db_update_field(field:str, cond:str, new):
                     con.rollback()
                     return
                 else:
-                    print("Не понимаю. Повторите. [y/n]: ")
+                    print("Не понимаю. Повторите операцию.")
 
         except Exception as err:
             print(f"Произошла ошибка: {err}")
@@ -67,7 +67,7 @@ def db_add(values):
                 con.rollback()
                 return
             else:
-                print("Не понимаю. Повторите. [y/n]: ")
+                print("Не понимаю. Повторите.")
         except Exception as err:
             print(f"Произошла ошибка: {err}")
 
